@@ -3,9 +3,8 @@ import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-
 import { routes } from './app.routes';
-import { Noir } from './app.preset';
+import { Theme } from './app.preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,10 +12,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
+      // ripple: true,
       theme: {
-        preset: Noir,
+        preset: Theme,
       },
-      ripple: true,
     }),
-  ]
+  ],
 };

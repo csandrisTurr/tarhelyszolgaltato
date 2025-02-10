@@ -2,8 +2,13 @@
 
 </style>
 
-<main class="main">
-    <p-button label="Submit" />
+<main class="main h-full w-full">
+  <nav class="flex gap-6 p-4">
+    <span class="text-xl self-center font-bold drop-shadow">Tarhelyszolgaltato</span>
+    <div class="flex gap-4">
+      <a routerLink="/login">Login</a>
+      <a routerLink="/register">Register</a>
+    </div>
+  </nav>
+  <router-outlet />
 </main>
-
-<router-outlet />

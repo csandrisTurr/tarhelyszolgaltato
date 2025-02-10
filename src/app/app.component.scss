@@ -1,3 +1,20 @@
 .main {
-    font-family: 'Inter';
+  font-family: 'Inter';
+  height: calc(100% - 70px);
+  @apply text-zinc-800;
+}
+
+nav {
+  span:first-child {
+    background: linear-gradient(90deg, #ffb672 24%, #f17373 75%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+  }
+
+  div > a {
+    @apply px-4 py-1 hover:bg-zinc-100 rounded-md border-[1px] transition-colors duration-150;
+  }
 }

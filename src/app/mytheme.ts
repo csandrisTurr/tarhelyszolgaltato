@@ -4,7 +4,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from "@primeng/themes/aura";
 import { definePreset } from "@primeng/themes";
 
-export const Theme = definePreset(Aura, {
+const MyPreset = definePreset(Aura, {
     primitive: {
         borderRadius: {
             none: "0",
@@ -661,3 +661,14 @@ export const Theme = definePreset(Aura, {
         }
     }
 });
+
+export const appConfig: ApplicationConfig = {
+    providers: [
+        provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+               preset: MyPreset,
+            }
+        })
+    ]
+};
