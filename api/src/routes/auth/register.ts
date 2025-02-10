@@ -7,7 +7,8 @@ import { emitWarning } from 'process';
 
 export const register = async (req: Request, res: Response) => {
   try {
-    if (!req.body || !req.body.name || req.body.email || !req.body.password || !req.body.domain) {
+    console.log(req.body)
+    if (!req.body || !req.body.name || !req.body.email || !req.body.password || !req.body.domain) {
       return res.status(400).send({ message: 'Some of the required fields are missing' });
     }
 

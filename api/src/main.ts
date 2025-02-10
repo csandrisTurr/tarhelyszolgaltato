@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, application } from 'express';
+import express, { Express, Request, Response, application, json } from 'express';
 import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { User } from '@/db/User';
@@ -23,6 +23,7 @@ dotenv.config();
 export const appDataSource = new DataSource({
   type: 'mysql',
   host: 'localhost',
+  database: '13a_tarhely',
   port: process.env.DATABASE_PORT || 3306,
   username: process.env.DATABASE_USERNAME || 'root',
   password: process.env.DATABASE_PASSWORD || '',
@@ -46,12 +47,14 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors())
+app.use(json())
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  await appDataSource.initialize();
   console.log(`Server is running on port ${port}`);
 });
 

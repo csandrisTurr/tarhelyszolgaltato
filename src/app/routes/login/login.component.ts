@@ -26,9 +26,11 @@ export class LoginComponent {
   pw: string = '';
 
   async submit() {
-    await this.apiService.post('auth/login', {
+    const res = await this.apiService.post('auth/login', {
       email: this.email,
       password: this.pw,
     });
+
+    localStorage.setItem('token', res.data.token);
   }
 }
