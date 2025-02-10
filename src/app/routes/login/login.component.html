@@ -1,8 +1,15 @@
 <div class="h-full w-full flex justify-center items-center">
-  <div class="flex flex-col gap-2">
-    <span class="text-2xl font-medium text-zinc-600">Log in</span>
-    <input type="text" pInputText [(ngModel)]="email" />
-    <p-password [(ngModel)]="pw"></p-password>
-    <p-button class="w-full ml-auto self-end">Submit</p-button>
+  <div class="flex flex-col gap-3">
+    <span class="text-3xl font-medium text-zinc-600">Log in</span>
+    <p class="break-all w-[300px] text-sm text-zinc-500">Use your existing account's credentials here. No account yet? <a href="">Register</a></p>
+    <p-floatlabel variant="on">
+      <input type="text" pInputText [(ngModel)]="email" id="email" class="w-full" />
+      <label for="email">E-Mail Address</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-password [(ngModel)]="pw" id="pw" class="bruh-full" />
+      <label for="pw">Password</label>
+    </p-floatlabel>
+    <p-button class="ml-auto self-center b-full" (onClick)="submit()">Submit</p-button>
   </div>
 </div>

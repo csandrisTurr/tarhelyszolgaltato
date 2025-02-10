@@ -7,14 +7,14 @@ import jwt from 'jsonwebtoken';
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { name, password } = req.body;
-
-    if (!name || !password)
+    if (!req.body || !req.body.email || !req.body.password)
       return res
         .status(400)
         .send({ message: 'Some of the required fields are missing' });
 
-    const user = await appDataSource.manager.findOne(User, { where: { name } });
+    const { email, password } = req.body;
+
+    const user = await appDataSource.manager.findOne(User, { where: { email } });
     if (!user)
       return res.status(401).send({ message: 'Invalid username or password' });
 
@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).send({ message: 'Invalid username or password' });
 
     const token = jwt.sign(
-      { userId: user.id, name: user.name, role: user.role, domain: user.domain },
+      { userId: user.id, email: user.email, role: user.role, domain: user.domain },
       process.env.SECRET_KEY,
       {
         expiresIn: '1h',

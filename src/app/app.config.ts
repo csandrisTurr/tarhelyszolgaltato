@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
-      // ripple: true,
+      ripple: true,
       theme: {
         preset: Theme,
       },

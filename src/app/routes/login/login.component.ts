@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { Password, PasswordModule } from 'primeng/password';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ApiService } from '../../utils/api.service';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +14,21 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule,
     FormsModule,
     Button,
+    FloatLabelModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  constructor(private readonly apiService: ApiService) {}
+
   email: string = '';
   pw: string = '';
+
+  async submit() {
+    await this.apiService.post('auth/login', {
+      email: this.email,
+      password: this.pw,
+    });
+  }
 }

@@ -3,16 +3,17 @@ import Request from '@/types/Request';
 import { User } from '@/db/User';
 import * as bcrypt from 'bcrypt';
 import { appDataSource } from '@/main';
+import { emitWarning } from 'process';
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { name, password, domain } = req.body;
-
-    if (!name || !password || !domain) {
+    if (!req.body || !req.body.name || req.body.email || !req.body.password || !req.body.domain) {
       return res.status(400).send({ message: 'Some of the required fields are missing' });
     }
 
-    const existingUser = await appDataSource.manager.findOne(User, { where: { name } });
+    const { name, email, password, domain } = req.body;
+
+    const existingUser = await appDataSource.manager.findOne(User, { where: { email } });
     if (existingUser)
       return res.status(400).send({ message: 'Name already in use' });
 
@@ -24,6 +25,7 @@ export const register = async (req: Request, res: Response) => {
 
     const user = new User();
     user.name = name;
+    user.email = email;
     user.password = hashedPassword;
     user.domain = domain;
 

@@ -12,6 +12,7 @@ import isAdmin from '@/middleware/admin';
 import { users } from '@/routes/admin/users';
 import { subscribe } from '@/routes/subscriptions/subscribe';
 import * as nodemailer from 'nodemailer';
+import cors from 'cors';
 
 declare const process: {
   env: ProcessEnv;
@@ -43,6 +44,8 @@ export const mailTransport = nodemailer.createTransport({
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+
+app.use(cors())
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');

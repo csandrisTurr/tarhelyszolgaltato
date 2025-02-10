@@ -12,3 +12,23 @@
 body, html {
   height: 100vh;
 }
+
+.b-full {
+  width: 100%;
+
+  & > *:first-child {
+    width: 100%;
+  }
+}
+
+.bruh-full {
+  width: 100%;
+
+  & > *:first-child {
+    width: 100%;
+
+    & > *:first-child {
+      width: 100%;
+    }
+  }
+}
