@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { RoutesModule } from './routes/routes.module';
 import { LoginComponent } from './routes/login/login.component';
 
 @Component({
@@ -13,10 +12,16 @@ import { LoginComponent } from './routes/login/login.component';
     RouterOutlet,
     ButtonModule,
     RouterLink,
-],
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'todo';
+
+  navbarPublicRoutes = () => !localStorage.getItem('token');
+
+  logOut() {
+    localStorage.removeItem('token');
+  }
 }

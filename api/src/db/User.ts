@@ -21,7 +21,7 @@ export class User {
   password: string;
 
   @Column()
-  domain: number;
+  domain: string;
 
   @Column({
     type: 'enum',

@@ -1,7 +1,7 @@
 <div class="h-full w-full flex justify-center items-center">
     <div class="flex flex-col gap-3">
       <span class="text-3xl font-medium text-zinc-600">Create an account</span>
-      <p class="break-all w-[300px] text-sm text-zinc-500">Already have an account? <a href="">Log in</a></p>
+      <p class="break-all w-[300px] text-sm text-zinc-500">Already have an account? <a routerLink="/login">Log in</a></p>
       <p-floatlabel variant="on">
         <input type="text" pInputText [(ngModel)]="name" id="name" class="w-full" />
         <label for="name">Name</label>
@@ -21,4 +21,3 @@
       <p-button class="ml-auto self-center b-full" (onClick)="submit()">Submit</p-button>
     </div>
   </div>
-  

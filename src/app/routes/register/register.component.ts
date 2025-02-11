@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../utils/api.service';
+import { ApiService } from '../../utils/api.service';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,12 +16,13 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     FormsModule,
     Button,
     FloatLabelModule,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService, private readonly router: Router) {}
 
   name: string = '';
   email: string = '';
@@ -34,5 +36,7 @@ export class RegisterComponent {
       password: this.pw,
       domain: this.domain,
     });
+
+    this.router.navigateByUrl('/login');
   }
 }

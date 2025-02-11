@@ -33,9 +33,9 @@ export class ApiService {
     return req;
   }
 
-  get = (path: string, data: object, includeBase = true) => this.request(HttpMethod.Get, path, data, includeBase);
-  post = (path: string, data: object, includeBase = true) => this.request(HttpMethod.Post, path, data, includeBase);
-  patch = (path: string, data: object, includeBase = true) => this.request(HttpMethod.Patch, path, data, includeBase);
-  put = (path: string, data: object, includeBase = true) => this.request(HttpMethod.Put, path, data, includeBase);
-  delete = (path: string, data: object, includeBase = true) => this.request(HttpMethod.Delete, path, data, includeBase);
+  get = <T = any>(path: string, data: object, includeBase = true) => this.request<T>(HttpMethod.Get, path, data, includeBase);
+  post = <T = any>(path: string, data: object, includeBase = true) => this.request<T>(HttpMethod.Post, path, data, includeBase);
+  patch = <T = any>(path: string, data: object, includeBase = true) => this.request<T>(HttpMethod.Patch, path, data, includeBase);
+  put = <T = any>(path: string, data: object, includeBase = true) => this.request<T>(HttpMethod.Put, path, data, includeBase);
+  delete = <T = any>(path: string, data: object, includeBase = true) => this.request<T>(HttpMethod.Delete, path, data, includeBase);
 }

@@ -8,6 +8,7 @@ interface Request extends ExpressRequest {
     role: string;
     domain: string;
   };
+  body: any;
 }
 
 export default Request;
