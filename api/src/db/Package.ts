@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne,  } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany,  } from 'typeorm';
 import { Subscription } from './Subscription';
 
 @Entity()
@@ -15,6 +15,6 @@ export class Package {
   @Column()
   description: string;
 
-  @OneToOne(() => Subscription, (subscription) => subscription.package)
-  subscription: Subscription;
+  @OneToMany(() => Subscription, (subscription) => subscription.package)
+  subscription: Subscription[];
 }

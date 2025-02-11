@@ -5,9 +5,12 @@ import Request from '@/types/Request';
 
 const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return res.status(401).send({ message: 'Please authenticate.' });
+    }
 
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decoded;
 
     next();

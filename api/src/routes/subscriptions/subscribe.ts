@@ -7,14 +7,20 @@ import { appDataSource, mailTransport } from '@/main';
 import { v4 as uuidv4 } from 'uuid';
 import * as ejs from 'ejs';
 
+function sanitizeSqlName(input: string): string {
+  const pattern = /[ !@#$%^&*()[\]{}\-+=|\\/:;"'<,>.?]/g;
+  return input.replace(pattern, '_');
+}
+
 export const subscribe = async (req: Request, res: Response) => {
   try {
-    const { packageId, userId } = req.body;
+    const { packageId } = req.body;
+    const userId = req.user.userId;
 
-    if (!packageId || !userId) {
+    if (!packageId) {
       return res
         .status(400)
-        .send({ message: 'Package ID and User ID are required' });
+        .send({ message: 'Package ID required' });
     }
 
     const user = await appDataSource.manager.findOne(User, {
@@ -24,7 +30,7 @@ export const subscribe = async (req: Request, res: Response) => {
       return res.status(404).send({ message: 'User not found' });
     }
 
-    const existingSubscription = appDataSource.manager.findOne(Subscription, {
+    const existingSubscription = await appDataSource.manager.findOne(Subscription, {
       where: { user },
     });
     if (existingSubscription) {
@@ -40,11 +46,14 @@ export const subscribe = async (req: Request, res: Response) => {
       return res.status(404).send({ message: 'Package not found' });
     }
 
-    const databaseName = user.domain;
-    const databaseUser = user.domain;
+    const databaseName = "tarhely_"+sanitizeSqlName(user.domain);
+    const databaseUser = databaseName;
     const databasePassword = uuidv4();
 
     const queryRunner = appDataSource.createQueryRunner();
+
+    await queryRunner.query(`DROP USER '${databaseUser}'@'%'`).catch(() => null);
+    await queryRunner.query(`FLUSH PRIVILEGES`);
     await queryRunner.query(`CREATE DATABASE ${databaseName}`);
     await queryRunner.query(
       `CREATE USER '${databaseUser}'@'%' IDENTIFIED BY '${databasePassword}'`
@@ -60,18 +69,18 @@ export const subscribe = async (req: Request, res: Response) => {
 
     await appDataSource.manager.save(subscription);
 
-  ejs.renderFile("templates/subscription.ejs", { content: { database: databaseName, username: databaseUser, password: databasePassword } }, (error, str) => {
-    if (error) {
-      console.error(error)
-    }
+    ejs.renderFile("templates/subscription.ejs", { content: { database: databaseName, username: databaseUser, password: databasePassword } }, (error, str) => {
+      if (error) {
+        console.error(error)
+      }
 
-    const info = mailTransport.sendMail({
-      from: '"Turr" <vicces@turr.hu>', // sender address
-      to: "myron78@ethereal.email", // list of receivers
-      subject: "szia leszel a baratom", // Subject line
-      html: str,
-    });
-  })
+      const info = mailTransport.sendMail({
+        from: '"Turr" <vicces@turr.hu>', // sender address
+        to: "myron78@ethereal.email", // list of receivers
+        subject: "szia leszel a baratom", // Subject line
+        html: str,
+      });
+    })
 
     return res
       .status(201)

@@ -13,6 +13,10 @@ import { users } from '@/routes/admin/users';
 import { subscribe } from '@/routes/subscriptions/subscribe';
 import * as nodemailer from 'nodemailer';
 import cors from 'cors';
+import authenticate from './middleware/jwt';
+import { listPackages } from './routes/packages/list';
+import { getActiveSubscription } from './routes/subscriptions/get';
+import { listSubscriptions } from './routes/admin/subscriptions';
 
 declare const process: {
   env: ProcessEnv;
@@ -63,12 +67,21 @@ authRoutes.post('/register', register);
 authRoutes.post('/login', login);
 
 const adminRoutes = express.Router();
+adminRoutes.use(authenticate);
 adminRoutes.use(isAdmin);
-adminRoutes.get('/user', users);
+adminRoutes.get('/users', users);
+adminRoutes.get('/subscriptions', listSubscriptions);
 
 const subscriptionsRoutes = express.Router();
-adminRoutes.post('/subscribe', subscribe);
+subscriptionsRoutes.use(authenticate);
+subscriptionsRoutes.post('/subscribe', subscribe);
+subscriptionsRoutes.get('/active', getActiveSubscription);
+
+const packagesRoutes = express.Router();
+packagesRoutes.use(authenticate);
+packagesRoutes.get('/', listPackages);
 
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/subscriptions', subscriptionsRoutes);
+app.use('/packages', packagesRoutes);

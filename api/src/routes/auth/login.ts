@@ -4,6 +4,8 @@ import { User } from '@/db/User';
 import * as bcrypt from 'bcrypt';
 import { appDataSource } from '@/main';
 import jwt from 'jsonwebtoken';
+import { Subscription } from '@/db/Subscription';
+import { UserRole } from '@/db/User';
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -22,6 +24,10 @@ export const login = async (req: Request, res: Response) => {
     if (!isValidPassword)
       return res.status(401).send({ message: 'Invalid username or password' });
 
+    const subscription = await appDataSource.manager.findOne(Subscription, { where: { user } });
+    const hasSubscription = !!subscription;
+    const admin = user.role == UserRole.ADMIN;
+
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role, domain: user.domain },
       process.env.SECRET_KEY,
@@ -30,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
       }
     );
 
-    return res.status(200).send({ token });
+    return res.status(200).send({ token, name: user.name, hasSubscription, admin });
   } catch (error) {
     console.error('Error logging in user:', error);
     return res.status(500).send({ message: 'Internal Server Error' });

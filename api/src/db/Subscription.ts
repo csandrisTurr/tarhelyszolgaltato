@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn,  } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany, ManyToOne,  } from 'typeorm';
 import { Package } from './Package';
 import { User } from './User';
 
@@ -11,7 +11,7 @@ export class Subscription {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @OneToOne(() => Package, (pkg) => pkg.subscription)
+  @ManyToOne(() => Package, (pkg) => pkg.subscription)
   @JoinColumn({ name: 'packageId' })
   package: Package;
 

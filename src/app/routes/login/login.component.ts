@@ -28,12 +28,14 @@ export class LoginComponent {
   pw: string = '';
 
   async submit() {
-    const res = await this.apiService.post('auth/login', {
+    const res = await this.apiService.post<{ token: string, hasSubscription: boolean, admin: boolean }>('auth/login', {
       email: this.email,
       password: this.pw,
     });
 
     localStorage.setItem('token', res.data.token);
+    localStorage.setItem('hasSubscription', res.data.hasSubscription ? '1' : '0');
+    localStorage.setItem('admin', res.data.admin ? '1' : '0');
     this.router.navigateByUrl('/');
   }
 }

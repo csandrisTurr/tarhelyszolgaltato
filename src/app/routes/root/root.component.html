@@ -1,1 +1,32 @@
-<p>root works!</p>
+<p-card [style]="{ overflow: 'hidden' }">
+    <ng-template #title> Active subscription </ng-template>
+    @if (activeSub.date != '') {
+        <ng-template #subtitle> {{ activeSub.date }} </ng-template>
+        <p>
+            {{ activeSub.package.name }} -
+            {{ activeSub.package.price }} Ft
+        </p>
+    } @else {
+        <p>No active subscriptions!</p>
+    }
+</p-card>
+<div class="h-full w-full flex max-lg:flex-col flex-wrap justify-center items-center gap-8">
+
+    @for (package of packages; track $index) {
+        <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+            <ng-template #header>
+                <img alt="Card" class="w-full" src="https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg" />
+            </ng-template>
+            <ng-template #title> {{ package.name }} </ng-template>
+            <ng-template #subtitle> {{ package.price }} Ft </ng-template>
+            <p>
+                {{ package.description }}
+            </p>
+            <ng-template #footer>
+                <div class="flex gap-4 mt-1">
+                    <p-button label="Purchase" class="w-full" styleClass="w-full" icon="pi pi-wallet" (onClick)="this.subscribe(package.id)" [disabled]="!this.canBuyShit()" />
+                </div>
+            </ng-template>
+        </p-card>
+    }
+</div>

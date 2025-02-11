@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
 import { Subscription } from './Subscription';
 
-enum UserRole {
+export enum UserRole {
   ADMIN = 'admin',
   USER = 'user',
 }

@@ -4,14 +4,17 @@
 
 <main class="main h-full w-full">
   <nav class="flex gap-6 p-4">
-    <span class="text-xl self-center font-bold drop-shadow">Tarhelyszolgaltato</span>
+    <a routerLink="/" class="text-xl self-center font-bold drop-shadow">
+      <span>Tarhelyszolgaltato</span>
+    </a>
     <div class="flex gap-4">
       @if (this.navbarPublicRoutes()) {
         <a routerLink="/login">Login</a>
         <a routerLink="/register">Register</a>
       } @else {
-        <a routerLink="/login">Login</a>
-        <a (click)="this.logOut()">Log out</a>
+        <a routerLink="/users" *ngIf="admin()">Users</a>
+        <a routerLink="/subscriptions" *ngIf="admin()">Subscriptions</a>
+        <a (click)="this.logOut()" class="cursor-pointer">Log out</a>
       }
     </div>
   </nav>
